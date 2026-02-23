@@ -16,6 +16,7 @@
  * @version 4.0
  */
 import java.util.*;
+import java.io.*;
 
 
 public class GuessingApp {
@@ -28,11 +29,12 @@ public class GuessingApp {
 		
 		Scanner scanner  = new Scanner(System.in);
 		int attempts = 0;
+		int hintsUsed = 0;
 		/*
 		 * Game loop runs until the player
 		 * exhausts the maximum attempts.
 		 */
-		while (attempts < config.getMaxAttempts()) {
+		while (attempts < gameConfig.getMaxAttempts()) {
 
 			System.out.print("Enter your guess: ");
 			/*
@@ -42,17 +44,17 @@ public class GuessingApp {
 			int guess = ValidationService.validateInput(scanner.nextLine());
 			attempts++;
 
-			String result = GuessValidator.validateGuess(guess, config.getTargetNumber());
-			String hint = HintService.generateHint(game.getTargetNumber(), attempts);
+			String result = GuessValidator.validateGuess(guess, gameConfig.getTargetNumber());
+			String hint = HintService.generateHint(gameConfig.getTargetNumber(), attempts);
 			/*
 			 * A hint is generated only after
 			 * an incorrect guess and within
 			 * the allowed hint limit.
 			*/
 			
-			if (!"CORRECT".equals(result) && hintsUsed < config.getMaxHints()) {
+			if (!"CORRECT".equals(result) && hintsUsed < gameConfig.getMaxHints()) {
 				hintsUsed++;
-				System.out.println(HintService.generateHint(config.getTargetNumber(), hintsUsed));
+				System.out.println(HintService.generateHint(gameConfig.getTargetNumber(), hintsUsed));
 			}
 
 			System.out.println(hint);
